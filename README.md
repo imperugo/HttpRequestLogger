@@ -19,7 +19,7 @@ This package is going to log the HTTP Request, the HTTP Response, ExecutionTime,
 Add the NuGet Package to your project:
 
 ```bash
-dotnet add package Imperugo.HttpRequestLogger.MongoDb****
+dotnet add package Imperugo.HttpRequestLogger.MongoDb
 ```
 
 > For now there is only the provider for MongoDb but I'll be happy to share more providers. Please feel free to open a PR with your provider.
