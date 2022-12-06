@@ -129,7 +129,7 @@ public class HttpLoggerMiddleware
 
     private UserClaim[] GetUserClaims(HttpContext context)
     {
-        if (context.User.Identity != null)
+        if (context.User.Identity == null)
             return Array.Empty<UserClaim>();
 
         // Is better to put a minimum capacity higher than start with 0 and then resize

@@ -1,4 +1,4 @@
-# Imperugo.HttpRequestToCurl
+# Imperugo.HttpRequestLogger
 
 [![Nuget](https://img.shields.io/nuget/v/Imperugo.HttpRequestLogger?style=flat-square)](https://www.nuget.org/packages/Imperugo.HttpRequestLogger/)
 [![Nuget](https://img.shields.io/nuget/vpre/Imperugo.HttpRequestLogger?style=flat-square)](https://www.nuget.org/packages/Imperugo.HttpRequestLogger/)
