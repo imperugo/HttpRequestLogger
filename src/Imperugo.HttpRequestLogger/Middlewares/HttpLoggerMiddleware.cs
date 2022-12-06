@@ -149,7 +149,7 @@ public class HttpLoggerMiddleware
         if (!request.Body.CanRead)
             return null;
 
-        using var reader = new StreamReader(request.Body, encoding: Encoding.UTF8);
+        var reader = new StreamReader(request.Body, encoding: Encoding.UTF8);
 
         var headers = new HeaderStorage[request.Headers.Count];
         var count = 0;
