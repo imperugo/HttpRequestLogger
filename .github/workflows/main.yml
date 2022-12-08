@@ -24,8 +24,11 @@ jobs:
       - name: Unit Test
         run: dotnet test --verbosity quiet
 
-      - name: Build with dotnet
+      - name: Build with logger
         run: dotnet pack ./src/Imperugo.HttpRequestLogger/Imperugo.HttpRequestLogger.csproj --version-suffix ${{ github.run_number }} -o ./packages/ -c Release
+
+      - name: Build with logger mongo db provider
+        run: dotnet pack ./src/Imperugo.HttpRequestLogger.MongoDb/Imperugo.HttpRequestLogger.MongoDb.csproj --version-suffix ${{ github.run_number }} -o ./packages/ -c Release
 
       - name: Publish nuget
         run: |
