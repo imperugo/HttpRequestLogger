@@ -27,7 +27,11 @@ public static class ApplicationBuilderExtensions
             && !context.Request.Path.StartsWithSegments("/swagger", StringComparison.OrdinalIgnoreCase)
             && !context.Request.Path.StartsWithSegments("/favicon", StringComparison.OrdinalIgnoreCase);
 
-        application.UseMiddleware<HttpLoggerMiddleware>(options);
+        // Skip gRPC requests https://github.com/dotnet/aspnetcore/issues/39317
+        application.UseWhen(
+            ctx => ctx.Request.ContentType != "application/grpc",
+            builder => builder.UseMiddleware<HttpLoggerMiddleware>(options)
+        );
 
         return application;
     }
