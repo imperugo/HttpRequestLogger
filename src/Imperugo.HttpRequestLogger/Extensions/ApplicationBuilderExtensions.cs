@@ -16,21 +16,17 @@ public static class ApplicationBuilderExtensions
     /// <summary>
     /// Register the <see cref="HttpLoggerMiddleware"/> to the pipeline.
     /// </summary>
-    /// <param name="application"></param>
-    /// <param name="options"></param>
+    /// <param name="application">The web application.</param>
+    /// <param name="loggerOptions">The logger options.</param>
     /// <returns></returns>
-    public static IApplicationBuilder UseHttpLogger(this IApplicationBuilder application, Func<HttpContext, IHostEnvironment, bool>? options = null)
+    public static IApplicationBuilder UseHttpLogger(this IApplicationBuilder application, HttpLoggerOptions? loggerOptions = null)
     {
-        options ??= (context, host) => !host.IsProduction()
-            && context.Request.Method != "OPTIONS"
-            && !context.Request.Path.StartsWithSegments("/docs", StringComparison.OrdinalIgnoreCase)
-            && !context.Request.Path.StartsWithSegments("/swagger", StringComparison.OrdinalIgnoreCase)
-            && !context.Request.Path.StartsWithSegments("/favicon", StringComparison.OrdinalIgnoreCase);
+        loggerOptions ??= new HttpLoggerOptions();
 
         // Skip gRPC requests https://github.com/dotnet/aspnetcore/issues/39317
         application.UseWhen(
             ctx => ctx.Request.ContentType != "application/grpc",
-            builder => builder.UseMiddleware<HttpLoggerMiddleware>(options)
+            builder => builder.UseMiddleware<HttpLoggerMiddleware>(loggerOptions)
         );
 
         return application;

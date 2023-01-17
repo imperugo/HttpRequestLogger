@@ -39,7 +39,7 @@ public class HttpLoggerMiddleware
         this.httpLoggerService = httpLoggerService;
         recyclableMemoryStreamManager = new RecyclableMemoryStreamManager();
 
-        this.loggerOptions = loggerOptions ?? new HttpLoggerOptions();
+        this.loggerOptions = loggerOptions;
     }
 
     /// <inheritdoc/>

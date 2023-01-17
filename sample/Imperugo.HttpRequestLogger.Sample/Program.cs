@@ -1,4 +1,6 @@
+using Imperugo.HttpRequestLogger;
 using Imperugo.HttpRequestLogger.Extensions;
+using Imperugo.HttpRequestToCurl.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,23 +13,27 @@ builder.Services.AddMongoDbHttpLoggerService(x =>
 
 var app = builder.Build();
 
-app.UseHttpLogger((ctx, env) =>
+app.UseHttpLogger(new HttpLoggerOptions()
 {
-    // This mean log in production
-    if (!env.IsProduction())
-        return false;
-
-    // This mean skip options request, swagger and favicon
-    if (ctx.Request.Method == "OPTIONS"
-        || !ctx.Request.Path.StartsWithSegments("/docs", StringComparison.OrdinalIgnoreCase)
-        || !ctx.Request.Path.StartsWithSegments("/swagger", StringComparison.OrdinalIgnoreCase)
-        || !ctx.Request.Path.StartsWithSegments("/favicon", StringComparison.OrdinalIgnoreCase))
+    CurlOptions = ToCurlOptions.PowerShell,
+    LoggingRules = (ctx, env) =>
     {
-        return false;
-    }
+        // This mean log in production
+        if (!env.IsProduction())
+            return false;
 
-    // this mean log only if the logged user is imperugo
-    return ctx.User.Claims.FirstOrDefault(x => x.Type == "sub")?.Value == "imperugo";
+        // This mean skip options request, swagger and favicon
+        if (ctx.Request.Method == "OPTIONS"
+            || !ctx.Request.Path.StartsWithSegments("/docs", StringComparison.OrdinalIgnoreCase)
+            || !ctx.Request.Path.StartsWithSegments("/swagger", StringComparison.OrdinalIgnoreCase)
+            || !ctx.Request.Path.StartsWithSegments("/favicon", StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        // this mean log only if the logged user is imperugo
+        return ctx.User.Claims.FirstOrDefault(x => x.Type == "sub")?.Value == "imperugo";
+    }
 });
 
 app.MapGet("/", () => "Hello World!");
