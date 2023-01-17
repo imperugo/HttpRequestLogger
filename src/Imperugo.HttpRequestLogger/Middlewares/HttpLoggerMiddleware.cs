@@ -21,7 +21,7 @@ public class HttpLoggerMiddleware
 {
     private readonly RequestDelegate next;
     private readonly IHostEnvironment hostEnvironment;
-    private readonly Func<HttpContext, IHostEnvironment, bool> allowFunction;
+    private readonly HttpLoggerOptions loggerOptions;
     private readonly IHttpLoggerService httpLoggerService;
     private readonly RecyclableMemoryStreamManager recyclableMemoryStreamManager;
 
@@ -29,22 +29,17 @@ public class HttpLoggerMiddleware
     /// Initializes a new instance of the <see cref="HttpLoggerMiddleware"/> class.
     /// </summary>
     /// <param name="next"></param>
-    /// <param name="profilerOptions"></param>
+    /// <param name="loggerOptions"></param>
     /// <param name="hostEnvironment"></param>
     /// <param name="httpLoggerService"></param>
-    public HttpLoggerMiddleware(RequestDelegate next, Func<HttpContext, IHostEnvironment, bool>? profilerOptions, IHostEnvironment hostEnvironment, IHttpLoggerService httpLoggerService)
+    public HttpLoggerMiddleware(RequestDelegate next, HttpLoggerOptions loggerOptions, IHostEnvironment hostEnvironment, IHttpLoggerService httpLoggerService)
     {
         this.next = next;
         this.hostEnvironment = hostEnvironment;
         this.httpLoggerService = httpLoggerService;
         recyclableMemoryStreamManager = new RecyclableMemoryStreamManager();
 
-        allowFunction = profilerOptions
-            ?? ((context, host) => !host.IsProduction()
-                && context.Request.Method != "OPTIONS"
-                && !context.Request.Path.StartsWithSegments("/docs", StringComparison.OrdinalIgnoreCase)
-                && !context.Request.Path.StartsWithSegments("/swagger", StringComparison.OrdinalIgnoreCase)
-                && !context.Request.Path.StartsWithSegments("/favicon", StringComparison.OrdinalIgnoreCase));
+        this.loggerOptions = loggerOptions ?? new HttpLoggerOptions();
     }
 
     /// <inheritdoc/>
@@ -52,7 +47,7 @@ public class HttpLoggerMiddleware
     public async Task Invoke(HttpContext context)
 #pragma warning restore RCS1046
     {
-        if (!allowFunction(context, hostEnvironment))
+        if (!loggerOptions.LoggingRules(context, hostEnvironment))
         {
             await next(context);
             return;
@@ -107,7 +102,7 @@ public class HttpLoggerMiddleware
             // Format the response from the server
             storage.Response = await GetResponseStorageAsync(context.Response, statusCode);
 
-            storage.cUrl = storage.Request?.ToCurl();
+            storage.cUrl = storage.Request?.ToCurl(loggerOptions.CurlOptions);
 
             // // Save log to datastore
             measureExecution.Stop();
@@ -167,6 +162,7 @@ public class HttpLoggerMiddleware
                 request.ContentType,
                 request.GetDisplayUrl(),
                 headers,
+                request.Protocol,
                 body == string.Empty ? null : body);
 
         // Rewind
