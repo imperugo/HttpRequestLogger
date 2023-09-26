@@ -46,4 +46,15 @@ public sealed class HttpLoggerOptions
     /// Options for generating the curl command
     /// </summary>
     public ToCurlOptions CurlOptions { get; set; } = ToCurlOptions.Bash;
+
+    /// <summary>
+    /// The maximum size in bytes of the in-memory &lt;see cref="System.Buffers.ArrayPool{Byte}"/&gt; used to buffer the
+    /// /// stream. Larger request bodies are written to disk.
+    /// </summary>
+    public int BufferThreshold { get; set; } = 1024 * 30;
+
+    /// <summary>
+    /// The maximum size in bytes of the request body. An attempt to read beyond this limit will cause an
+    /// </summary>
+    public long? BufferLimit{ get; set; }
 }

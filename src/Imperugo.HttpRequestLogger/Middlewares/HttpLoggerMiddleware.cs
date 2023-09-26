@@ -73,7 +73,7 @@ public class HttpLoggerMiddleware
         var originalBodyStream = context.Response.Body;
 
         // Create a new memory stream...
-        await using var responseBody = recyclableMemoryStreamManager.GetStream();
+        var responseBody = recyclableMemoryStreamManager.GetStream();
 
         // ...and use that for the temporary response body
         context.Response.Body = responseBody;
@@ -119,6 +119,8 @@ public class HttpLoggerMiddleware
             {
                 context.Response.Body = originalBodyStream;
             }
+
+            await responseBody.DisposeAsync();
         }
     }
 
@@ -139,7 +141,10 @@ public class HttpLoggerMiddleware
 
     private async Task<HttpRequestStorage?> GetRequestStorageAsync(HttpRequest request)
     {
-        request.EnableBuffering();
+        if(loggerOptions.BufferLimit == null)
+            request.EnableBuffering(loggerOptions.BufferThreshold);
+        else
+            request.EnableBuffering(bufferThreshold: loggerOptions.BufferThreshold, bufferLimit: loggerOptions.BufferLimit.Value);
 
         if (!request.Body.CanRead)
             return null;
@@ -151,7 +156,7 @@ public class HttpLoggerMiddleware
 
         foreach (var (key, value) in request.Headers)
         {
-            headers[count] = new HeaderStorage(key, value.ToString());
+            headers[count] = new HeaderStorage(key, value.ToString() ?? string.Empty);
             count++;
         }
 
