@@ -22,8 +22,8 @@ jobs:
       - name: Show dotnet info
         run: dotnet --info
 
-#      - name: Unit Test
-#        run: dotnet test --verbosity quiet
+      - name: Unit Test
+        run: dotnet test --verbosity quiet
 
       - name: Build main library
         run: dotnet pack ./src/Imperugo.HttpRequestLogger/Imperugo.HttpRequestLogger.csproj --version-suffix ${{ github.run_number }} -o ./packages/ -c Release

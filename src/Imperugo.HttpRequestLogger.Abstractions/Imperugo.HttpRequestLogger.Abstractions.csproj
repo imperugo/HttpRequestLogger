@@ -5,7 +5,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <PackageProjectUrl>https://github.com/imperugo/Imperugo.HttpRequestLogger</PackageProjectUrl>
-    <PackageId>Imperugo.HttpRequestLogger</PackageId>
+    <PackageId>Imperugo.HttpRequestLogger.Abstractions</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>Http HttpRequest curl</PackageTags>
     <PackageDescription>
