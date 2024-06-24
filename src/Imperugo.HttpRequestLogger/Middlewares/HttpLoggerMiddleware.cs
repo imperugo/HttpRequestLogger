@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Text;
 
 using Imperugo.HttpRequestLogger.Abstractions;
-using Imperugo.HttpRequestLogger.Storage;
 using Imperugo.HttpRequestToCurl;
 
 using Microsoft.AspNetCore.Http;

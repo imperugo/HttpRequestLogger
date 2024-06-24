@@ -17,6 +17,7 @@ jobs:
           dotnet-version: |
             6.0.x
             7.0.x
+            8.0.x
 
       - name: Show dotnet info
         run: dotnet --info
@@ -24,10 +25,13 @@ jobs:
       - name: Unit Test
         run: dotnet test --verbosity quiet
 
-      - name: Build with logger
+      - name: Build main library
         run: dotnet pack ./src/Imperugo.HttpRequestLogger/Imperugo.HttpRequestLogger.csproj --version-suffix ${{ github.run_number }} -o ./packages/ -c Release
 
-      - name: Build with logger mongo db provider
+      - name: Build abstractions
+        run: dotnet pack ./src/Imperugo.HttpRequestLogger.Abstractions/Imperugo.HttpRequestLogger.Abstractions.csproj --version-suffix ${{ github.run_number }} -o ./packages/ -c Release
+
+      - name: Build mongo db provider
         run: dotnet pack ./src/Imperugo.HttpRequestLogger.MongoDb/Imperugo.HttpRequestLogger.MongoDb.csproj --version-suffix ${{ github.run_number }} -o ./packages/ -c Release
 
       - name: Publish nuget

@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Imperugo.HttpRequestLogger.Abstractions\Imperugo.HttpRequestLogger.Abstractions.csproj" />
     <ProjectReference Include="..\Imperugo.HttpRequestLogger\Imperugo.HttpRequestLogger.csproj" />
   </ItemGroup>
 

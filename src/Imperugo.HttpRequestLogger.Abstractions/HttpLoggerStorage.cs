@@ -2,7 +2,7 @@
 
 using Imperugo.HttpRequestToCurl;
 
-namespace Imperugo.HttpRequestLogger.Storage;
+namespace Imperugo.HttpRequestLogger.Abstractions;
 
 /// <summary>
 /// The http request and response

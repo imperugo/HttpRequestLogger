@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{A05258
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imperugo.HttpRequestLogger.Sample", "sample\Imperugo.HttpRequestLogger.Sample\Imperugo.HttpRequestLogger.Sample.csproj", "{693A7E7D-5A6D-455B-BC82-03DB5BEAC7C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imperugo.HttpRequestLogger.Abstractions", "src\Imperugo.HttpRequestLogger.Abstractions\Imperugo.HttpRequestLogger.Abstractions.csproj", "{48C12ED8-093D-4428-97AC-74431BBAFCC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,10 +36,15 @@ Global
 		{693A7E7D-5A6D-455B-BC82-03DB5BEAC7C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{693A7E7D-5A6D-455B-BC82-03DB5BEAC7C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{693A7E7D-5A6D-455B-BC82-03DB5BEAC7C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48C12ED8-093D-4428-97AC-74431BBAFCC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48C12ED8-093D-4428-97AC-74431BBAFCC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48C12ED8-093D-4428-97AC-74431BBAFCC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48C12ED8-093D-4428-97AC-74431BBAFCC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A8BB0F2E-0B7A-4EF5-9E1B-FC17F2BD07AC} = {5F083D82-996B-4157-B260-3FE2D341A9AF}
 		{D65601B7-0975-4F5E-93B2-103F10EF4493} = {5F083D82-996B-4157-B260-3FE2D341A9AF}
 		{693A7E7D-5A6D-455B-BC82-03DB5BEAC7C1} = {A052580E-30BC-4E52-9F31-67E2423D816A}
+		{48C12ED8-093D-4428-97AC-74431BBAFCC7} = {5F083D82-996B-4157-B260-3FE2D341A9AF}
 	EndGlobalSection
 EndGlobal
